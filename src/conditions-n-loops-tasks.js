@@ -344,9 +344,83 @@ function getBalanceIndex(arr) {
  *          [10, 9,  8,  7]
  *        ]
  */
-function getSpiralMatrix(/* size */) {
-  throw new Error('Not implemented');
+function getSpiralMatrix(size) {
+  let row = 0;
+  let col = 0;
+  const result = [];
+  let currentValue = 1;
+  for (let i = 0; i < size; i += 1) {
+    result[i] = [];
+    for (let j = 0; j < size; j += 1) {
+      result[i][j] = 0;
+    }
+  }
+  let direction = 'right';
+  let isEnd = false;
+  while (currentValue < size * size) {
+    if (direction === 'right') {
+      while (!isEnd) {
+        result[row][col] = currentValue;
+        col += 1;
+        currentValue += 1;
+        if (col > size - 1 || result[row][col] !== 0) {
+          col -= 1;
+          currentValue -= 1;
+          isEnd = true;
+        }
+      }
+      isEnd = false;
+      direction = 'down';
+    }
+
+    if (direction === 'down') {
+      while (!isEnd) {
+        result[row][col] = currentValue;
+        row += 1;
+        currentValue += 1;
+        if (row > size - 1 || result[row][col] !== 0) {
+          row -= 1;
+          currentValue -= 1;
+          isEnd = true;
+        }
+      }
+      isEnd = false;
+      direction = 'left';
+    }
+
+    if (direction === 'left') {
+      while (!isEnd) {
+        result[row][col] = currentValue;
+        col -= 1;
+        currentValue += 1;
+        if (col < 0 || result[row][col] !== 0) {
+          col += 1;
+          currentValue -= 1;
+          isEnd = true;
+        }
+      }
+      isEnd = false;
+      direction = 'up';
+    }
+
+    if (direction === 'up') {
+      while (!isEnd) {
+        result[row][col] = currentValue;
+        row -= 1;
+        currentValue += 1;
+        if (row < 0 || result[row][col] !== 0) {
+          row += 1;
+          currentValue -= 1;
+          isEnd = true;
+        }
+      }
+      isEnd = false;
+      direction = 'right';
+    }
+  }
+  return result;
 }
+// console.log(getSpiralMatrix(5));
 
 /**
  * Rotates a matrix by 90 degrees clockwise in place.
@@ -363,9 +437,32 @@ function getSpiralMatrix(/* size */) {
  *    [7, 8, 9]         [9, 6, 3]
  *  ]                 ]
  */
-function rotateMatrix(/* matrix */) {
-  throw new Error('Not implemented');
+function rotateMatrix(matrix) {
+  const rows = matrix.length;
+  const cols = matrix[0].length;
+  const result = matrix;
+  const copyMatrix = [];
+  for (let i = 0; i < rows; i += 1) {
+    copyMatrix[i] = [];
+    for (let j = cols - 1; j >= 0; j -= 1) {
+      copyMatrix[i][cols - j - 1] = matrix[j][i];
+    }
+  }
+  for (let i = 0; i < rows; i += 1) {
+    for (let j = 0; j < cols; j += 1) {
+      result[i][j] = copyMatrix[i][j];
+    }
+  }
+  return result;
 }
+// const a = [
+//   [1, 2, 3, 4, 5],
+//   [6, 7, 8, 9, 10],
+//   [11, 12, 13, 14, 15],
+//   [16, 17, 18, 19, 20],
+//   [21, 22, 23, 24, 25],
+// ];
+// console.log(rotateMatrix(a));
 
 /**
  * Sorts an array of numbers in ascending order in place.
