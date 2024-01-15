@@ -478,9 +478,52 @@ function rotateMatrix(matrix) {
  *  [2, 9, 5, 9]    => [2, 5, 9, 9]
  *  [-2, 9, 5, -3]  => [-3, -2, 5, 9]
  */
-function sortByAsc(/* arr */) {
-  throw new Error('Not implemented');
+function sortByAsc(arr) {
+  const arrCopy = arr;
+
+  function quickSort(array, leftItem, rightItem) {
+    if (leftItem >= rightItem) {
+      return;
+    }
+
+    const pivotIndex = Math.floor((leftItem + rightItem) / 2);
+    const pivotItem = array[pivotIndex];
+    let leftIndex = leftItem;
+    let rightIndex = rightItem;
+
+    while (leftIndex <= rightIndex) {
+      while (array[leftIndex] < pivotItem) {
+        leftIndex += 1;
+      }
+
+      while (array[rightIndex] > pivotItem) {
+        rightIndex -= 1;
+      }
+
+      if (leftIndex <= rightIndex) {
+        const temp = array[leftIndex];
+        arrCopy[leftIndex] = array[rightIndex];
+        arrCopy[rightIndex] = temp;
+
+        leftIndex += 1;
+        rightIndex -= 1;
+      }
+    }
+
+    if (leftItem < rightIndex) {
+      quickSort(array, leftItem, rightIndex);
+    }
+
+    if (rightItem > leftIndex) {
+      quickSort(array, leftIndex, rightItem);
+    }
+  }
+
+  quickSort(arrCopy, 0, arrCopy.length - 1);
+  return arrCopy;
 }
+
+// console.log(sortByAsc([10, 9, 8, 7, 6, 5, 4, 3, 10, 1]));
 
 /**
  * Shuffles characters in a string so that the characters with an odd index are moved to the end of the string at each iteration.
