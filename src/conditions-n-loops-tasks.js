@@ -542,9 +542,36 @@ function sortByAsc(arr) {
  *  '012345', 3 => '024135' => '043215' => '031425'
  *  'qwerty', 3 => 'qetwry' => 'qtrewy' => 'qrwtey'
  */
-function shuffleChar(/* str, iterations */) {
-  throw new Error('Not implemented');
+function shuffleChar(str, iterations) {
+  const resultArray = [str];
+  let result = str;
+  for (let k = 1; k <= iterations; k += 1) {
+    let modifiedResult = '';
+    for (let i = 0; i < str.length; i += 2) {
+      modifiedResult += result[i];
+    }
+    for (let i = 1; i < str.length; i += 2) {
+      modifiedResult += result[i];
+    }
+    result = modifiedResult;
+    if (resultArray.length > 1 && str === result) {
+      return resultArray[iterations % k];
+    }
+    resultArray[k] = result;
+  }
+
+  return result;
 }
+// console.log(shuffleChar('0123456789', 1), 1);
+// console.log(shuffleChar('0123456789', 2), 2);
+// console.log(shuffleChar('0123456789', 3), 3);
+// console.log(shuffleChar('0123456789', 4), 4);
+// console.log(shuffleChar('0123456789', 5), 5);
+// console.log(shuffleChar('0123456789', 6), 6);
+// console.log(shuffleChar('0123456789', 7), 7);
+// console.log(shuffleChar('0123456789', 8), 8);
+// console.log(shuffleChar('0123456789', 9), 9);
+// console.log(shuffleChar('0123456789', 10), 10);
 
 /**
  * Returns the nearest largest integer consisting of the digits of the given positive integer.
@@ -565,8 +592,54 @@ function shuffleChar(/* str, iterations */) {
  */
 function getNearestBigger(/* number */) {
   throw new Error('Not implemented');
-}
+  /*  const str = `${number}`;
+  const numberArray = [];
+  for (let i = 0; i < str.length; i += 1) {
+    numberArray.push(Number(str[i]));
+  }
 
+  const digitsToReplace = [];
+
+  for (let i = numberArray.length - 1; i >= 0; i -= 1) {
+    console.log(
+      'iteration:',
+      i,
+      ' currentItem:',
+      numberArray[i],
+      ' prevItem:',
+      numberArray[i - 1]
+    );
+
+    if (
+      (numberArray[i] > numberArray[i - 1] &&
+        numberArray[i - 1] >= numberArray[i - 2]) ||
+      i - 1 === 1
+    ) {
+      const leftPart = numberArray.slice(0, i - 1);
+      if (i - 1 === 1) {
+        digitsToReplace.push(numberArray[i - 2]);
+      }
+      digitsToReplace.push(numberArray[i]);
+      digitsToReplace.push(numberArray[i - 1]);
+      return `${leftPart} and ${digitsToReplace.reverse()}`;
+    }
+
+    if (numberArray[i] <= numberArray[i - 1] || i - 1 < 0) {
+      digitsToReplace.push(numberArray[i]);
+    }
+
+    // if (numberArray[i] > numberArray[i - 1] && digitsToReplace.length === 0) {
+    //   const temp = numberArray[i];
+    //   numberArray[i] = numberArray[i - 1];
+    //   numberArray[i - 1] = temp;
+    //   return Number(numberArray.join(''));
+    // }
+  }
+  console.log('noBigger!');
+  return Number(digitsToReplace.reverse().join(''));
+*/
+}
+// console.log(getNearestBigger(10001000));
 module.exports = {
   isPositive,
   getMaxNumber,
