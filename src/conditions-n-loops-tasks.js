@@ -590,56 +590,48 @@ function shuffleChar(str, iterations) {
  * @param {number} number The source number
  * @returns {number} The nearest larger number, or original number if none exists.
  */
-function getNearestBigger(/* number */) {
-  throw new Error('Not implemented');
-  /*  const str = `${number}`;
+function getNearestBigger(number) {
+  const str = `${number}`;
   const numberArray = [];
+
   for (let i = 0; i < str.length; i += 1) {
     numberArray.push(Number(str[i]));
   }
 
-  const digitsToReplace = [];
-
-  for (let i = numberArray.length - 1; i >= 0; i -= 1) {
-    console.log(
-      'iteration:',
-      i,
-      ' currentItem:',
-      numberArray[i],
-      ' prevItem:',
-      numberArray[i - 1]
-    );
-
-    if (
-      (numberArray[i] > numberArray[i - 1] &&
-        numberArray[i - 1] >= numberArray[i - 2]) ||
-      i - 1 === 1
-    ) {
-      const leftPart = numberArray.slice(0, i - 1);
-      if (i - 1 === 1) {
-        digitsToReplace.push(numberArray[i - 2]);
-      }
-      digitsToReplace.push(numberArray[i]);
-      digitsToReplace.push(numberArray[i - 1]);
-      return `${leftPart} and ${digitsToReplace.reverse()}`;
+  const digitsToReplace = [numberArray[numberArray.length - 1]];
+  let isSimilar = true;
+  let firstDigit;
+  for (let i = numberArray.length - 2; i >= 0; i -= 1) {
+    if (numberArray[i + 1] > numberArray[i]) {
+      firstDigit = numberArray[i];
+      isSimilar = false;
+      numberArray.pop();
+      break;
     }
-
-    if (numberArray[i] <= numberArray[i - 1] || i - 1 < 0) {
-      digitsToReplace.push(numberArray[i]);
-    }
-
-    // if (numberArray[i] > numberArray[i - 1] && digitsToReplace.length === 0) {
-    //   const temp = numberArray[i];
-    //   numberArray[i] = numberArray[i - 1];
-    //   numberArray[i - 1] = temp;
-    //   return Number(numberArray.join(''));
-    // }
+    numberArray.pop();
+    digitsToReplace.push(numberArray[i]);
   }
-  console.log('noBigger!');
-  return Number(digitsToReplace.reverse().join(''));
-*/
+  numberArray.pop();
+
+  if (isSimilar) {
+    return number;
+  }
+
+  digitsToReplace.sort((a, b) => a - b);
+
+  for (let i = 0; i < digitsToReplace.length; i += 1) {
+    if (digitsToReplace[i] > firstDigit) {
+      const temp = firstDigit;
+      firstDigit = digitsToReplace[i];
+      digitsToReplace[i] = temp;
+      numberArray.push(firstDigit);
+      break;
+    }
+  }
+
+  return Number(numberArray.join('') + digitsToReplace.join(''));
 }
-// console.log(getNearestBigger(10001000));
+// console.log(getNearestBigger(777));
 module.exports = {
   isPositive,
   getMaxNumber,
